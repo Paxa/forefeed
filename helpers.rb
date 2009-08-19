@@ -7,7 +7,7 @@ module Sinatra
         end
 
         def asset_url(path, tld_length = 1)
-          'http://' + domain + '/' + path
+          '/' + path
         end
       end
     end
