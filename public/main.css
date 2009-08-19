@@ -1,0 +1,76 @@
+body {
+  background-color: #abc;
+  margin: 0px;
+  padding: 20px 0;
+  font-family: serif;
+}
+
+#header, #content, #footer {
+  width: 940px;
+  background-color: #fff;
+  margin: 0 auto 1px auto;
+  padding: 10px;
+}
+
+#header {
+  height: 60px;
+  background-color: #eee;
+}
+
+  #header h1 {
+    margin: 0px;
+    padding: 0px;
+    line-height: 60px;
+    font-size: 1.2rm;
+  }
+
+  #header h1 a {
+    color: #444;
+  }
+
+
+#content {
+  min-height: 500px;
+  padding: 0px;
+  width: 960px;
+}
+
+#footer {
+  color: #678;
+  font-weight: bold;
+  opacity: .5;
+}
+
+
+#left_col {
+  width: 200px;
+  float: left;
+  background-color: #dfe9ff;
+  padding: 10px;
+}
+
+  #left_col li {
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 12px;
+  }
+
+  #left_col li:hover {
+    text-decoration: underline;
+  }
+
+  #posts, #posts li {
+    margin: 0px;
+    padding: 0px;
+    margin-left: 8px;
+  }
+
+#feed_name {
+  width: 209px;
+  position: relative;
+  left: -8px;
+}
+
+#right_col {
+  padding: 0px 10px;
+}
