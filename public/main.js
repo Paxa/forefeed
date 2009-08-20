@@ -70,6 +70,7 @@ function on_mouseup (e) {
 
 function show_post(num) {
   hide_posts();
+  $$('.suggest').destroy();
   $('right_col').set('html', current_feed.feed.entries[num].content);
   $('current_title').set('html', current_feed.feed.entries[num].title);
 }
