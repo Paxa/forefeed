@@ -1,7 +1,7 @@
-!!!
+!!! strict
 %html{ :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
-    %title ForeFeed &mdash зарубежные фиды легко!
+    %title ForeFeed &mdash; зарубежные фиды легко!
     %meta{ "http-equiv" => "Content-type", :content => "text/html;charset=UTF-8" }
 
     %script{:src => 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js', :type => 'text/javascript'}
@@ -17,10 +17,19 @@
         %h1
           %a{href('/')} ForeFeed
 
+        #feed_box
+          %input#feed_name{:value => 'paste feed url here'}
+
+          #post_list
+            %a#post_toggle +
+            %ul#posts
+              %li
+                %i nothing yet
+             
 
     #content
       = yield
 
     #footer
       .copyright
-        &copy; ForeFeed &mdash зарубежные фиды легко!
+        &copy; ForeFeed &mdash; зарубежные фиды легко!

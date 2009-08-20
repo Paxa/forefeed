@@ -15,13 +15,14 @@ body {
 #header {
   height: 60px;
   background-color: #eee;
+  position: relative;
 }
 
   #header h1 {
     margin: 0px;
     padding: 0px;
     line-height: 60px;
-    font-size: 1.2rm;
+    font-size: 2.1em;
   }
 
   #header h1 a {
@@ -41,36 +42,108 @@ body {
   opacity: .5;
 }
 
-
-#left_col {
-  width: 200px;
-  float: left;
+#feed_box {
   background-color: #dfe9ff;
-  padding: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 700px;
+  height: 60px;
 }
 
-  #left_col li {
-    font-size: 12px;
-    cursor: pointer;
-    margin-left: 12px;
-  }
-
-  #left_col li:hover {
-    text-decoration: underline;
-  }
-
-  #posts, #posts li {
-    margin: 0px;
-    padding: 0px;
-    margin-left: 8px;
-  }
 
 #feed_name {
-  width: 209px;
+  width: 660px;
+  margin: 5px 0px 0px 20px;
+  border: 1px solid #aaa;
+  color: #444;
+}
+
+#feed_box ul, #feed_box li {
+  padding: 0px;
+  margin: 0px;
+  list-style-type: none;
+}
+
+#feed_box li {
+  padding: 0px 5px;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 19px;
+}
+
+#feed_box li:hover .post-title  {
+  text-decoration: underline;
+}
+
+#feed_box li:hover {
+  background-color: #faf8e9;
+}
+
+#post_list {
+  margin: 5px 0px 0px 20px;
   position: relative;
-  left: -8px;
+  background-color: #fff;
+  width: 660px;
+  border: 1px solid #ccc;
+  height: 19px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+#post_toggle {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  background-color: #dca;
+  cursor: pointer;
+  display: block;
+  height: 12px;
+  width: 12px;
+  line-height: 12px;
+  font-size: 13px;
+  padding: 1px 2px;
+  text-align: center;
 }
 
 #right_col {
-  padding: 0px 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.post-date {
+  background-color: #f4f4f4;
+  color: #666;
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  margin-right: 3px;
+}
+
+.tr_btn {
+  min-width: 100px;
+  height: 15px;
+  background-color: #ccc9ea;
+  position: absolute;
+  font-size: 12px;
+  line-height: 15px;
+  padding: 0px 12px 0 4px;
+}
+
+.del-tr {
+  float: right;
+  background-color: #aeabd6;
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  cursor: pointer;
+  padding: 0px 2px;
+}
+
+#current_title {
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-left: 10px;
+  color: #520924;
 }
