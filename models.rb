@@ -1,5 +1,7 @@
 require 'datamapper'
-DataMapper::setup(:default, "mysql://root:123@localhost/forefeed")
+
+DataMapper::setup(:default, ENV['DATABASE_URL'] || "mysql://root:123@localhost/forefeed")
+
 
 class Feed
     include DataMapper::Resource
