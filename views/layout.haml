@@ -8,8 +8,10 @@
     %script{javascript('mootools-1.2.3.1-more.js')}
     %script{:src => "http://www.google.com/jsapi?key=#{@google_key}", :type => 'text/javascript'}
 
+    %script{javascript('functions.js')}
     %script{javascript('main.js')}
     %link{css('main.css') }
+    %meta{ :name => "verify-v1", :content => "Uzo5OfeHcrtPQkE4J2cHPoYNrk0ez/7aj8bi0mU1b70="}
 
   %body
     #header

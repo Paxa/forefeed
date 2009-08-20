@@ -60,10 +60,9 @@ function load_feed (url) {
 }
 
 function on_mouseup (e) {
+  $$('.suggest').destroy();
   var text = getSelText() + '';
-  if (text.trim().length < 2) {
-    $$('.suggest').destroy();
-  } else {
+  if (text.trim().length > 1) {
     make_tr_button(e, text);
   }
 }
@@ -108,43 +107,3 @@ function make_tr_button(e, text) {
 }
 
 
-
-function getSelText()
-{
-   var wnd = (window.name=='send_frame')?parent:window;
-  var sel_text = null;
-  if(wnd.getSelection) err_text=wnd.getSelection();
-  else
-    if(wnd.document.getSelection) err_text=wnd.document.getSelection();
-    else sel_text = wnd.document.selection;
-
-  if(sel_text) {
-    err_text = sel_text.createRange().text;
-    var b_text= sel_text.createRange();
-    var a_text= sel_text.createRange();
-    sel_text = err_text;
-    b_text.moveStart("word",-10);
-    b_text.moveEnd("character",-err_text.length);
-    a_text.moveStart("character",err_text.length);
-    a_text.moveEnd("word",10);
-    sel_text = b_text.text+' ##'+err_text+'## '+a_text.text;
-  }
-  else {
-    if (window.document.body != undefined) {
-      if (wnd.document.body.innerText != undefined)
-        sel_text=wnd.document.body.innerText;
-      else
-        sel_text=wnd.document.body.innerHTML;
-
-      var nn=sel_text.indexOf(err_text);
-      if (nn != -1){
-        var tmp_str=err_text+"";
-        sel_text = sel_text.substring(nn-70, nn)+' ##'+err_text+'## '+sel_text.substring(nn+tmp_str.length, nn+tmp_str.length+70);
-      }
-      else sel_text ;// = ' ##'+err_text+'## ';
-    }
-    else sel_text = ' ##'+err_text+'## ';
-  }
-
-  return err_text;
-}

@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra-helpers'
 require 'helpers'
+require 'models'
 require 'haml'
 
 
