@@ -40,6 +40,7 @@ var current_feed = {};
 
 function load_feed (url) {
   var feed = new google.feeds.Feed(url);
+  feed.includeHistoricalEntries();
   feed.setNumEntries(35);
   feed.load(function(result) {
     if (!result.error) {
