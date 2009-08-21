@@ -40,7 +40,7 @@ var current_feed = {};
 
 function load_feed (url) {
   var feed = new google.feeds.Feed(url);
-  feed.setNumEntries(25);
+  feed.setNumEntries(35);
   feed.load(function(result) {
     if (!result.error) {
       $('posts').empty();
