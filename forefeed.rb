@@ -22,10 +22,11 @@ get '/' do
 end
 
 get '/login' do
-  @consumer=OAuth::Consumer.new( "forefeed.heroku.com"," 	aWzRgfbuew+WVoQdnoZyuqHv", {
-      :site=>"https://www.google.com"
-  })
-  @request_token=@consumer.get_request_token
+  @consumer=OAuth::Consumer.new( "forefeed.heroku.com"," 	aWzRgfbuew+WVoQdnoZyuqHv", {:site=>"https://www.google.com",
+       :request_token_path=>"/accounts/OAuthGetRequestToken",
+       :access_token_path=>"/accounts/OAuthGetAccessToken",
+       :authorize_path=>"/accounts/OAuthAuthorizeToken"})
+  @request_token = @consumer.get_request_token
   session[:request_token] = @request_token
   redirect @request_token.authorize_url
 end
