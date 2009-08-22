@@ -29,6 +29,6 @@ get '/login' do
       :access_token_path => '/accounts/OAuthGetAccessToken',
       :authorize_path => '/accounts/OAuthAuthorizeToken'})
   rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds'})
-  rt
+  puts rt
 end
 
