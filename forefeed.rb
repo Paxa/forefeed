@@ -6,7 +6,7 @@ require 'sinatra-helpers'
 require 'helpers'
 require 'models'
 require 'haml'
-
+require 'oauth'
 
 set :sessions, true
 set :logging, true
@@ -20,3 +20,13 @@ get '/' do
   @google_key = google_key
   haml :index
 end
+
+get '/login' do
+  @consumer=OAuth::Consumer.new( "forefeed.heroku.com"," 	aWzRgfbuew+WVoQdnoZyuqHv", {
+      :site=>"https://www.google.com"
+  })
+  @request_token=@consumer.get_request_token
+  session[:request_token] = @request_token
+  redirect @request_token.authorize_url
+end
+
