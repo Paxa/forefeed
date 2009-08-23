@@ -29,7 +29,7 @@ get '/login' do
       :request_token_path => '/accounts/OAuthGetRequestToken',
       :access_token_path => '/accounts/OAuthGetAccessToken',
       :authorize_path => '/accounts/OAuthAuthorizeToken'})
-  rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds'})
+  rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds', :oauth_callback => "http://example.com/cb"})
   redirect rt.authorize_url
 end
 
