@@ -22,14 +22,21 @@ get '/' do
   haml :index
 end
 
+con = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
+   {:site => 'https://www.google.com',
+    :request_token_path => '/accounts/OAuthGetRequestToken',
+    :access_token_path => '/accounts/OAuthGetAccessToken',
+    :authorize_path => '/accounts/OAuthAuthorizeToken'})
+    
 get '/login' do
-
-  con = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
-     {:site => 'https://www.google.com',
-      :request_token_path => '/accounts/OAuthGetRequestToken',
-      :access_token_path => '/accounts/OAuthGetAccessToken',
-      :authorize_path => '/accounts/OAuthAuthorizeToken'})
-  rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds', :oauth_callback => "http://example.com/cb"})
-  redirect rt.authorize_url
+  $rt = con.get_request_token({:oauth_callback => "http://localhost:4567/cb"}, {:scope => 'https://www.google.com/m8/feeds/'})
+  redirect $rt.authorize_url
 end
 
+get '/cb' do 
+  at = $rt.get_access_token(:oauth_verifier => params[:oauth_verifier])
+  p at.token
+  p at.secret
+  puts at.get("https://www.google.com/m8/feeds/contacts/default/full/").body
+  p params
+end
