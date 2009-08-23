@@ -7,6 +7,7 @@ require 'helpers'
 require 'models'
 require 'haml'
 require 'oauth'
+require 'json'
 
 set :sessions, true
 set :logging, true
@@ -29,6 +30,6 @@ get '/login' do
       :access_token_path => '/accounts/OAuthGetAccessToken',
       :authorize_path => '/accounts/OAuthAuthorizeToken'})
   rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds'})
-  puts rt
+  redirect rt.authorize_url
 end
 
