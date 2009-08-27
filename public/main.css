@@ -25,9 +25,9 @@ body {
     font-size: 2.1em;
   }
 
-  #header h1 a {
-    color: #444;
-  }
+    #header h1 a {
+      color: #444;
+  	}
 
 
 #content {
@@ -60,26 +60,26 @@ body {
   color: #444;
 }
 
-#feed_box ul, #feed_box li {
-  padding: 0px;
-  margin: 0px;
-  list-style-type: none;
-}
+  #feed_box ul, #feed_box li {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+  }
 
-#feed_box li {
-  padding: 0px 5px;
-  font-size: 12px;
-  cursor: pointer;
-  line-height: 19px;
-}
+  #feed_box li {
+    padding: 0px 5px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 19px;
+  }
 
-#feed_box li:hover .post-title  {
-  text-decoration: underline;
-}
+    #feed_box li:hover {
+      background-color: #faf8e9;
+    }
 
-#feed_box li:hover {
-  background-color: #faf8e9;
-}
+      #feed_box li:hover .post-title  {
+        text-decoration: underline;
+      }
 
 #post_list {
   margin: 5px 0px 0px 20px;

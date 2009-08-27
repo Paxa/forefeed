@@ -19,6 +19,10 @@ class User
   property :email, String
   property :oauth_token, String
   property :oauth_secret, String
+  
+  def cookie_hash
+    Digest::MD5.hexdigest "#{oauth_token}-#{oauth_secret}-#{email}ХУЙ"
+  end
 end
 
 # automatically create the post table
