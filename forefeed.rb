@@ -89,6 +89,6 @@ get '/user/:id' do
   @feeds = DataMapper.repository(:default).adapter.query('
     SELECT feeds.*,
       (select count(*) FROM feeds_users fu2 where fu2.user_id = fu.user_id and fu2.feed_id = fu.feed_id) as count 
-    from feeds_users fu, feeds WHERE user_id = ? and feeds.id = fu.feed_id group by feed_id order by count desc', params[:id])
+    from feeds_users fu, feeds WHERE user_id = ? and feeds.id = fu.feed_id group by feed_id, feeds.id order by count desc', params[:id])
   haml :user
 end
