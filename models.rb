@@ -23,8 +23,13 @@ class User
   def cookie_hash
     Digest::MD5.hexdigest "#{oauth_token}-#{oauth_secret}-#{email}ХУЙ"
   end
+  
+  def authorize
+    session = $cont.session
+    session[:user_id] = id
+    $cont.set_cookie 'auth_id', id
+    $cont.set_cookie 'auth_hash', cookie_hash
+  end
 end
 
-# automatically create the post table
-Feed.auto_migrate!
-User.auto_migrate!
+DataMapper::AutoMigrator.auto_upgrade

@@ -25,18 +25,19 @@ $con = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
     :access_token_path => '/accounts/OAuthGetAccessToken',
     :authorize_path => '/accounts/OAuthAuthorizeToken'})
 
+before do
+  $cont = self
+  $user = nil
+end
+
 get '/' do
   @google_key = google_key
   haml :index
 end
 
 get '/login' do
-  cookies = request.cookies
-  if cookies['user_id'] && cookies['auth_hash']
-    user = User.get(cookies['user_id'])
-    if user.cookie_hash == cookie['auth_hash']
-      session['user_id'] == user.id
-    end
+  if try_auth
+    redirect '/'
   else
     $rt = $con.get_request_token({:oauth_callback => "http://localhost:4567/oauth_get"}, {:scope => 'https://www.google.com/m8/feeds/'})
     redirect $rt.authorize_url
@@ -50,26 +51,21 @@ get '/oauth_get' do
   xml = Hpricot::XML data
   author = xml/:author
   
-  user = User.new(
-    :name => (author/:name)[0].innerHTML, 
-    :email => (author/:email)[0].innerHTML, 
-    :oauth_token => at.token,
-    :oauth_secret => at.secret
-  )
+  user = User.first :email => (author/:email)[0].innerHTML
   
-  if user.save
-    session[:user_id] = user.id
-    set_cookie 'auth_id', user.id
-    set_cookie 'auth_hash', user.cookie_hash
+  if user
+    user.authorize
+  else
+    new_user = User.new(
+      :name => (author/:name)[0].innerHTML, 
+      :email => (author/:email)[0].innerHTML, 
+      :oauth_token => at.token,
+      :oauth_secret => at.secret
+    )
+  
+    if new_user.save
+      new_user.authorize
+    end
   end
-  
   redirect '/'
-end
-
-def at_for user
-  OAuth::AccessToken.new $con, user.oauth_token, user.oauth_secret
-end
-
-def current_user
-  @@_current_user || User.get(session[:user_id])
 end
