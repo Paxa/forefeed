@@ -188,3 +188,13 @@ body {
     color: #966732;
     font-weight: bold;
   }
+
+  .home-img {
+    opacity: .5;
+    padding-left: 220px;
+    padding-top: 40px;
+  }
+
+  .home-img:hover {
+    opacity: 1;
+  }
