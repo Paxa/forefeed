@@ -28,11 +28,10 @@ $con = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
 before do
   $cont = self
   $user = nil
+  @google_key = google_key
 end
 
 get '/' do
-  p request
-  @google_key = google_key
   haml :index
 end
 
