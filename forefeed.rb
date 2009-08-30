@@ -31,6 +31,7 @@ before do
 end
 
 get '/' do
+  p request
   @google_key = google_key
   haml :index
 end
@@ -39,7 +40,7 @@ get '/login' do
   if try_auth
     redirect '/'
   else
-    $rt = $con.get_request_token({:oauth_callback => "http://localhost:4567/oauth_get"}, {:scope => 'https://www.google.com/m8/feeds/'})
+    $rt = $con.get_request_token({:oauth_callback => "http://#{request.env['HTTP_HOST']}/oauth_get"}, {:scope => 'https://www.google.com/m8/feeds/'})
     redirect $rt.authorize_url
   end
 end
