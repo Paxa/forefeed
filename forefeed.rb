@@ -10,20 +10,16 @@ require 'hpricot'
 require 'oauth'
 require 'json'
 require 'digest/md5'
+require 'oauthbox'
 
 set :sessions, true
 set :logging, true
 set :dump_errors, true
 set :public, File.join(File.dirname(__FILE__), 'public')
 set :environment, app_env
+enable :sessions
 
 google_key ||= 'ABQIAAAAHzDsf62yQb-dc6oxj8T3ZRSmbtbI58sJnUq1AueY0BvTVoVv3BS2gClpGsuN2juf8fL55w8oRKfwgw'
-
-$con = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
-   {:site => 'https://www.google.com',
-    :request_token_path => '/accounts/OAuthGetRequestToken',
-    :access_token_path => '/accounts/OAuthGetAccessToken',
-    :authorize_path => '/accounts/OAuthAuthorizeToken'})
 
 before do
   $cont = self
@@ -39,13 +35,15 @@ get '/login' do
   if try_auth
     redirect '/'
   else
-    $rt = $con.get_request_token({:oauth_callback => "http://#{request.env['HTTP_HOST']}/oauth_get"}, {:scope => 'https://www.google.com/m8/feeds/'})
-    redirect $rt.authorize_url
+    @rt = OauthBox.get_rt_for 'google', '/oauth_get'
+    session['rt_num'] = OauthBox.store_rt @rt
+    redirect @rt.authorize_url
   end
 end
 
-get '/oauth_get' do 
-  at = $rt.get_access_token(:oauth_verifier => params[:oauth_verifier])
+get '/oauth_get' do
+  rt = OauthBox.retrive_rt session['rt_num']
+  at = rt.get_access_token(:oauth_verifier => params[:oauth_verifier])
   data = at.get("https://www.google.com/m8/feeds/contacts/default/full/").body
   xml = Hpricot::XML data
   author = xml/:author
