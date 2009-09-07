@@ -19,6 +19,13 @@
         %h1
           %a{href('/')} ForeFeed
 
+        #user_bar
+          - if current_user
+            %a{href("/user/#{current_user.id}")}
+              = current_user.name
+          - else
+            %a{href("/login")} Войти
+
         #feed_box
           %input#feed_name{:value => 'paste feed url here'}
 

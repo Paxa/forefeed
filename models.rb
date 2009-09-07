@@ -7,8 +7,9 @@ class Feed
   include DataMapper::Resource
   property :id, Serial
   property :title, String
-  property :url, Text
-  property :views, DateTime
+  property :url, Text, :length => (12..300)
+  has n, :Feeds_users
+
 end
 
 
@@ -19,8 +20,33 @@ class User
   property :email, String
   property :oauth_token, String
   property :oauth_secret, String
+
+  has n, :Feeds_users
+  def cookie_hash
+    Digest::MD5.hexdigest "#{oauth_token}-#{oauth_secret}-#{email}ХУЙ"
+  end
+  
+  def authorize
+    session = $cont.session
+    session[:user_id] = id
+    $cont.set_cookie 'auth_id', id
+    $cont.set_cookie 'auth_hash', cookie_hash
+  end
 end
 
-# automatically create the post table
-Feed.auto_migrate!
-User.auto_migrate!
+class Feeds_user
+  include DataMapper::Resource
+  property :id, Serial
+  property :user_id, Integer, :key => true
+  property :feed_id, Integer, :key => true
+  property :created_at, DateTime
+
+  before :create do
+    created_at = DateTime.now
+  end
+
+  belongs_to :user, :child_key => [:user_id]
+  belongs_to :feed, :child_key => [:feed_id]
+end
+
+DataMapper::AutoMigrator.auto_upgrade

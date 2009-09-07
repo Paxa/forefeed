@@ -21,7 +21,9 @@ window.addEvent('domready', function () {
     }
   });
   
-  $('right_col').addEvent('mouseup', on_mouseup);
+  if ($('right_col')) {
+    $('right_col').addEvent('mouseup', on_mouseup);
+  }
 
   $('post_toggle').addEvent('click', function () {
     if ($('post_list').shown == true) {
@@ -32,11 +34,17 @@ window.addEvent('domready', function () {
   });
   $('post_list').set('tween', {duration: 400, transition: Fx.Transitions.Circ.easeOut});
 
+  $$('.feed-link').addEvent('click', function (e) {
+    $('feed_name').value = this.get('href');
+    load_feed(this.get('href'));
+    return false;
+  });
 
 });
 
 
 var current_feed = {};
+var current_post_num = 0;
 
 function load_feed (url) {
   var feed = new google.feeds.Feed(url);
@@ -56,6 +64,12 @@ function load_feed (url) {
         new Element('span', {'class': 'post-title', text: entry.title}).inject(li);
       })
       show_posts();
+
+      new Request.JSON({url: "/store_feed", onSuccess: function(resp){
+         if (resp.status != 'ok') {
+           alert(JSON.decode(resp));
+         }
+      }}).get({'url': url, title: current_feed.feed.title});
     }
   });
 }
@@ -69,19 +83,24 @@ function on_mouseup (e) {
 }
 
 function show_post(num) {
+  $('info').empty();
+  current_post_num = num;
   hide_posts();
-  $$('.suggest').destroy();
+  $$('.tr_btn').destroy();
   $('right_col').set('html', current_feed.feed.entries[num].content);
   $('current_title').set('html', current_feed.feed.entries[num].title);
+  make_better_post($('right_col'));
 }
 
 function hide_posts() {
   $('post_list').tween('height', 19);
+  $('posts').tween('top', current_post_num * -19);
   $('post_list').shown = false;
 }
 
 function show_posts() {
   $('post_list').tween('height', $('posts').getStyle('height').toInt() + 6);
+  $('posts').tween('top', 0);
   $('post_list').shown = true;
 }
 
@@ -107,4 +126,20 @@ function make_tr_button(e, text) {
 
 }
 
+function make_better_post (box) {
+  var feed_host = new URI(current_feed.feed.link).set('directory', '').set('file', '').toString();
+  box.getElements('a').each(function (el) {
+    var path = el.get('href');
+    if (path[0] == '/' || path.indexOf('://') > 15 || path.indexOf('://') == -1) {
+      el.set('href', feed_host + path);
+    }
+  });
+
+  box.getElements('img').each(function (el) {
+    var path = el.get('src');
+    if (path[0] == '/' || path.indexOf('://') > 15 || path.indexOf('://') == -1) {
+      el.set('src', feed_host + path);
+    }
+  });
+}
 

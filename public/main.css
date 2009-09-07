@@ -23,11 +23,12 @@ body {
     padding: 0px;
     line-height: 60px;
     font-size: 2.1em;
+    margin-top: -3px;
   }
 
-  #header h1 a {
-    color: #444;
-  }
+    #header h1 a {
+      color: #444;
+  	}
 
 
 #content {
@@ -60,26 +61,26 @@ body {
   color: #444;
 }
 
-#feed_box ul, #feed_box li {
-  padding: 0px;
-  margin: 0px;
-  list-style-type: none;
-}
+  #feed_box ul, #feed_box li {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+  }
 
-#feed_box li {
-  padding: 0px 5px;
-  font-size: 12px;
-  cursor: pointer;
-  line-height: 19px;
-}
+  #feed_box li {
+    padding: 0px 5px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 19px;
+  }
 
-#feed_box li:hover .post-title  {
-  text-decoration: underline;
-}
+    #feed_box li:hover {
+      background-color: #faf8e9;
+    }
 
-#feed_box li:hover {
-  background-color: #faf8e9;
-}
+      #feed_box li:hover .post-title  {
+        text-decoration: underline;
+      }
 
 #post_list {
   margin: 5px 0px 0px 20px;
@@ -105,11 +106,16 @@ body {
   font-size: 13px;
   padding: 1px 2px;
   text-align: center;
+  z-index: 3;
 }
 
 #right_col {
   padding: 10px;
   position: relative;
+}
+
+#right_col a img {
+  border: 0px solid #999;
 }
 
 .post-date {
@@ -141,9 +147,54 @@ body {
   padding: 0px 2px;
 }
 
-#current_title {
+#current_title, #info h3 {
   font-size: 1.5em;
   line-height: 2em;
   margin-left: 10px;
   color: #520924;
 }
+
+#user_bar {
+  position: absolute;
+  top: 58px;
+  left: 15px;
+}
+
+  #user_bar a {
+    color: #966732;
+    font-size: 14px;
+  }
+
+#posts {
+  position: relative;
+}
+
+#info {
+  margin-left: 10px;
+}
+
+  #info h3 {
+    font-weight: normal;
+    margin: 0;
+    padding: 0px;
+  }
+
+  #info ul {
+    margin-left: 1em;
+    padding: 0;
+  }
+
+  .feed-link {
+    color: #966732;
+    font-weight: bold;
+  }
+
+  .home-img {
+    opacity: .8;
+    padding-left: 220px;
+    padding-top: 40px;
+  }
+
+  .home-img:hover {
+    opacity: 1;
+  }
