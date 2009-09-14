@@ -93,8 +93,8 @@ function show_post(num) {
 }
 
 function hide_posts() {
-  $('post_list').tween('height', 19);
-  $('posts').tween('top', current_post_num * -19);
+  $('post_list').tween('height', 21);
+  $('posts').tween('top', current_post_num * -21);
   $('post_list').shown = false;
 }
 

@@ -29,8 +29,8 @@ class User
   def authorize
     session = $cont.session
     session[:user_id] = id
-    $cont.set_cookie 'auth_id', id
-    $cont.set_cookie 'auth_hash', cookie_hash
+    $cont.response.set_cookie "auth_id", { :value => id, :expires => Time.now + 100 * 3600 * 24 }
+    $cont.response.set_cookie "auth_hash", { :value => cookie_hash, :expires => Time.now + 100 * 3600 * 24 }
   end
 end
 
