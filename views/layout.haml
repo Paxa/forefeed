@@ -14,31 +14,35 @@
     %meta{ :name => "verify-v1", :content => "Uzo5OfeHcrtPQkE4J2cHPoYNrk0ez/7aj8bi0mU1b70="}
 
   %body
-    #header
-      #logo
-        %h1
-          %a{href('/')} ForeFeed
+    #page
+      .bg
+      #header
+        #logo
+          %h1
+            %a{href('/')} ForeFeed
 
-        #user_bar
-          - if current_user
-            %a{href("/user/#{current_user.id}")}
-              = current_user.name
-          - else
-            %a{href("/login")} Войти
+          #user_bar
+            - if current_user
+              %a{href("/user/#{current_user.id}")}
+                = current_user.name
+            - else
+              %a{href("/login")} Войти
 
-        #feed_box
-          %input#feed_name{:value => 'paste feed url here'}
+          #feed_box
+            %input#feed_name{:value => 'paste feed url here'}
 
-          #post_list
-            %a#post_toggle +
-            %ul#posts
-              %li
-                %i nothing yet
-             
+            #post_list
+              %a#post_toggle +
+              %ul#posts
+                %li
+                  %i nothing yet
 
-    #content
-      = yield
 
-    #footer
-      .copyright
-        &copy; ForeFeed &mdash; зарубежные фиды легко!
+      #content
+        = yield
+
+      #footer
+        .copyright
+          &copy; ForeFeed &mdash; зарубежные фиды легко!
+          %a{ :href => "http://github.com/Paxa/forefeed"} Source code
+          %a{ :href => "http://twitter.com/opaxa"} Contact

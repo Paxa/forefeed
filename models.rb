@@ -8,8 +8,7 @@ class Feed
   property :id, Serial
   property :title, String
   property :url, Text, :length => (12..300)
-  property :anounce, Text
-  property :body, Text
+  has n, :Feeds_users
 
 end
 
@@ -22,19 +21,20 @@ class User
   property :oauth_token, String
   property :oauth_secret, String
 
+  has n, :Feeds_users
   def cookie_hash
     Digest::MD5.hexdigest "#{oauth_token}-#{oauth_secret}-#{email}ХУЙ"
-  end
-  
-  def authorize
-    session = $cont.session
-    session[:user_id] = id
-    $cont.set_cookie 'auth_id', id
-    $cont.set_cookie 'auth_hash', cookie_hash
   end
 
   def self.current
 
+  end
+
+  def authorize
+    session = $cont.session
+    session[:user_id] = id
+    $cont.response.set_cookie "auth_id", { :value => id, :expires => Time.now + 100 * 3600 * 24 }
+    $cont.response.set_cookie "auth_hash", { :value => cookie_hash, :expires => Time.now + 100 * 3600 * 24 }
   end
 end
 
@@ -49,22 +49,8 @@ class Feeds_user
     created_at = DateTime.now
   end
 
-end
-
-DataMapper.auto_upgrade!
-
-
-class Feeds_user
   belongs_to :user, :child_key => [:user_id]
   belongs_to :feed, :child_key => [:feed_id]
 end
 
-
-class User
-  has n, :Feeds_users
-end
-
-
-class Feed
-  has n, :Feeds_users
-end
+DataMapper.auto_upgrade!

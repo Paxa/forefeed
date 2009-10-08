@@ -1,21 +1,34 @@
 body {
-  background-color: #abc;
+  background-color: #fff;
   margin: 0px;
-  padding: 20px 0;
-  font-family: serif;
+  padding: 0;
+  font-family: sans-serif;
 }
 
-#header, #content, #footer {
+h1, h2 {
+  font-family: sans-serif;
+}
+
+#page {
+  margin: 0 auto 1px auto;
   width: 940px;
   background-color: #fff;
-  margin: 0 auto 1px auto;
-  padding: 10px;
+  position: relative;
+}
+
+#header, #content, #footer, .bg {
+  width: 940px;
+  padding: 0 1em;
+  background-color: #fff;
 }
 
 #header {
-  height: 60px;
-  background-color: #eee;
+  height: 85px;
+  background-color: #fff;
+  background-image: url("/top-bg.png");
+  background-repeat: repeat-x;
   position: relative;
+  border-bottom: 1px dashed #dadada;
 }
 
   #header h1 {
@@ -33,14 +46,32 @@ body {
 
 #content {
   min-height: 500px;
+  padding: 1em;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+#content {}
+
+#page .bg {
+  width: 1029px;
   padding: 0px;
-  width: 960px;
+  margin: 0px;
+  background-image: url("/bg.png");
+  height: 200px;
+  position: absolute;
+  z-index: -2;
+  left: -35px;
+  height: 100%;
+  margin: 0 auto 1px auto;
 }
 
 #footer {
+  border-top: 1px solid #dadada;
+  border-bottom: 1px solid #dadada;
+  padding: .5em 1em;
   color: #678;
   font-weight: bold;
-  opacity: .5;
 }
 
 #feed_box {
@@ -57,7 +88,7 @@ body {
 #feed_name {
   width: 660px;
   margin: 5px 0px 0px 20px;
-  border: 1px solid #aaa;
+  border: 1px solid #999;
   color: #444;
 }
 
@@ -69,9 +100,10 @@ body {
 
   #feed_box li {
     padding: 0px 5px;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
     line-height: 19px;
+    margin: 2px 0px;
   }
 
     #feed_box li:hover {
