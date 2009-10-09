@@ -9,11 +9,12 @@ describe User do
       :oauth_token => 'asdasda',
       :oauth_secret => '23d23'
     )
-
     @user.save
+    get '/'
   end
 
-  it 'should be foundable' do
-    User.first.id.should == @user.id
+  it 'authorize selected user' do
+    @user.authorize
+    User.current.id.should == @user.id
   end
 end

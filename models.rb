@@ -49,7 +49,19 @@ class User
   end
 
   def self.current
-
+    if @@current
+      return @@current
+    else
+      cookies = $cont.request.cookies
+      if cookies['auth_id'] && cookies['auth_hash']
+        user = get(cookies['auth_id'].to_i)
+        if user && user.cookie_hash == cookies['auth_hash']
+          @@current = user
+          return user
+        end
+      end
+      nil
+    end
   end
 
   def authorize
