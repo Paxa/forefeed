@@ -8,7 +8,6 @@ class Feed
   property :id, Serial
   property :title, String
   property :url, Text, :length => (12..300)
-  has n, :Feeds_users
 
 end
 
@@ -21,7 +20,30 @@ class User
   property :oauth_token, String
   property :oauth_secret, String
 
+end
+
+class Feeds_user
+  include DataMapper::Resource
+  property :id, Serial
+  property :user_id, Integer, :key => true
+  property :feed_id, Integer, :key => true
+  property :created_at, DateTime
+
+end
+
+DataMapper.auto_upgrade!
+
+
+
+class Feed
   has n, :Feeds_users
+
+end
+
+
+class User
+  has n, :Feeds_users
+
   def cookie_hash
     Digest::MD5.hexdigest "#{oauth_token}-#{oauth_secret}-#{email}ХУЙ"
   end
@@ -39,18 +61,10 @@ class User
 end
 
 class Feeds_user
-  include DataMapper::Resource
-  property :id, Serial
-  property :user_id, Integer, :key => true
-  property :feed_id, Integer, :key => true
-  property :created_at, DateTime
+  belongs_to :user, :child_key => [:user_id]
+  belongs_to :feed, :child_key => [:feed_id]
 
   before :create do
     created_at = DateTime.now
   end
-
-  belongs_to :user, :child_key => [:user_id]
-  belongs_to :feed, :child_key => [:feed_id]
 end
-
-DataMapper.auto_upgrade!
