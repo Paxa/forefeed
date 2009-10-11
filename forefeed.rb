@@ -4,13 +4,16 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra-helpers'
 require 'helpers'
-require 'models'
+require 'net/http'
+require 'open-uri'
 require 'haml'
 require 'hpricot'
 require 'oauth'
-require 'json'
+require 'json/ext'
 require 'digest/md5'
+require 'models'
 require 'oauthbox'
+
 
 set :sessions, true
 set :logging, true
@@ -24,6 +27,7 @@ google_key ||= 'ABQIAAAAHzDsf62yQb-dc6oxj8T3ZRSmbtbI58sJnUq1AueY0BvTVoVv3BS2gClp
 before do
   $cont = self
   $user = nil
+  User.current_user = nil
   @google_key = google_key
 end
 
@@ -67,25 +71,33 @@ get '/oauth_get' do
   redirect '/'
 end
 
-get '/store_feed' do
-  user = try_auth
+get '/open_feed' do
   feed = Feed.first :url => params[:url].strip
   if !feed
     feed = Feed.create :url => params[:url].strip, :title => params[:title]
   end
+  feed.load_posts
 
-  fu = Feeds_user.new :feed_id => feed.id, :user_id => (user ? user.id : 0)
-  fu.save
+  User.store_feed feed
 
   content_type :json
-  {:status => 'ok'}.to_json
+  res = {:title => feed.title, :id => feed.id, :posts => []}
+  feed.posts.all(:limit => 35).each do |post|
+    res[:posts] << {:id => post.id, :title => post.title, :date => post.pub_date, :short => post.short}
+  end
+  res.to_json
+end
+
+get '/posts/:id' do
+  post = post.get params[:id]
+  User.store_post post
+
+  content_type :json
+  post.to_json
 end
 
 get '/user/:id' do
   @user = User.get params[:id]
-  @feeds = DataMapper.repository(:default).adapter.query('
-    SELECT feeds.*,
-      (select count(*) FROM feeds_users fu2 where fu2.user_id = fu.user_id and fu2.feed_id = fu.feed_id ) as count
-    from feeds_users fu, feeds WHERE user_id = ? and feeds.id = fu.feed_id group by feed_id, feeds.id, feeds.title, feeds.url, fu.user_id order by count desc', params[:id])
+  @feeds = @user.personal_stat
   haml :user
 end

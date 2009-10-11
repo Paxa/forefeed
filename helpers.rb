@@ -23,6 +23,16 @@ def at_for user
   OAuth::AccessToken.new $con, user.oauth_token, user.oauth_secret
 end
 
+class Hash
+  def to_url_params
+    elements = []
+    keys.size.times do |i|
+      elements << "#{CGI::escape(keys[i].to_s)}=#{CGI::escape(values[i].to_s)}"
+    end
+    elements.join('&')
+  end
+end
+
 def current_user
   $user || try_auth
 end

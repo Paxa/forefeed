@@ -1,4 +1,5 @@
 # Load the testing libraries
+ENV['DATABASE_URL'] = "postgres://root:123@localhost/forefeed_test"
 require File.expand_path(File.dirname(__FILE__) + '/../forefeed')
 require 'spec'
 require 'spec/interop/test'
