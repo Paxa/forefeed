@@ -9,40 +9,23 @@
     %script{:src => "http://www.google.com/jsapi?key=#{@google_key}", :type => 'text/javascript'}
 
     %script{javascript('functions.js')}
-    %script{javascript('main.js')}
-    %link{css('main.css') }
+    %script{javascript('main2.js')}
+    %link{css('main2.css') }
     %meta{ :name => "verify-v1", :content => "Uzo5OfeHcrtPQkE4J2cHPoYNrk0ez/7aj8bi0mU1b70="}
 
   %body
+    %ul#menu
+      %li
+        %a{ :id => "menu_add" } +
+      %li
+        %a{ :id => "menu_login" } &rarr;0
+      %li
+        %a{ :id => "menu_user" } /me
+
     #page
-      .bg
-      #header
-        #logo
-          %h1
-            %a{href('/')} ForeFeed
-
-          #user_bar
-            - if current_user
-              %a{href("/user/#{current_user.id}")}
-                = current_user.name
-            - else
-              %a{href("/login")} Войти
-
-          #feed_box
-            %input#feed_name{:value => 'paste feed url here'}
-
-            #post_list
-              %a#post_toggle +
-              %ul#posts
-                %li
-                  %i nothing yet
-
-
-      #content
-        = yield
-
-      #footer
-        .copyright
-          &copy; ForeFeed &mdash; зарубежные фиды легко!
-          %a{ :href => "http://github.com/Paxa/forefeed"} Source code
-          %a{ :href => "http://twitter.com/opaxa"} Contact
+      #inner
+        #left_border
+        #right_border
+        #content
+          = yield
+          %hr.clear

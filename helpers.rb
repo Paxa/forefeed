@@ -33,18 +33,18 @@ class Hash
   end
 end
 
-def current_user
-  $user || try_auth
-end
-
-def try_auth
-  cookies = request.cookies
-  if cookies['auth_id'] && cookies['auth_hash']
-    user = User.get(cookies['auth_id'].to_i)
-    if user && user.cookie_hash == cookies['auth_hash']
-      $user = user
-      return user
-    end
-  end
-  return nil
-end
+#def current_user
+#  $user || try_auth
+#end
+#
+#def try_auth
+#  cookies = request.cookies
+#  if cookies['auth_id'] && cookies['auth_hash']
+#    user = User.get(cookies['auth_id'].to_i)
+#    if user && user.cookie_hash == cookies['auth_hash']
+#      $user = user
+#      return user
+#    end
+#  end
+#  return nil
+#end

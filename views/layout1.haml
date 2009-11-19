@@ -1,0 +1,48 @@
+!!! strict
+%html{ :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %title ForeFeed &mdash; зарубежные фиды легко!
+    %meta{ "http-equiv" => "Content-type", :content => "text/html;charset=UTF-8" }
+
+    %script{:src => 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js', :type => 'text/javascript'}
+    %script{javascript('mootools-1.2.3.1-more.js')}
+    %script{:src => "http://www.google.com/jsapi?key=#{@google_key}", :type => 'text/javascript'}
+
+    %script{javascript('functions.js')}
+    %script{javascript('main.js')}
+    %link{css('main.css') }
+    %meta{ :name => "verify-v1", :content => "Uzo5OfeHcrtPQkE4J2cHPoYNrk0ez/7aj8bi0mU1b70="}
+
+  %body
+    #page
+      .bg
+      #header
+        #logo
+          %h1
+            %a{href('/')} ForeFeed
+
+          #user_bar
+            - if current_user
+              %a{href("/user/#{current_user.id}")}
+                = current_user.name
+            - else
+              %a{href("/login")} Войти
+
+          #feed_box
+            %input#feed_name{:value => 'paste feed url here'}
+
+            #post_list
+              %a#post_toggle +
+              %ul#posts
+                %li
+                  %i nothing yet
+
+
+      #content
+        = yield
+
+      #footer
+        .copyright
+          &copy; ForeFeed &mdash; зарубежные фиды легко!
+          %a{ :href => "http://github.com/Paxa/forefeed"} Source code
+          %a{ :href => "http://twitter.com/opaxa"} Contact
