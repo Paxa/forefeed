@@ -11,22 +11,7 @@ set :logging, true
 set :dump_errors, true
 set :public, File.join(File.dirname(__FILE__), 'public')
 set :environment, app_env
-
-class Store
-  class << self
-    attr_accessor :clients, :consumer, :google_key
-  end
-end
-
-Store.clients = []
-Store.consumer = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
-   {:site => 'https://www.google.com',
-    :request_token_path => '/accounts/OAuthGetRequestToken',
-    :access_token_path => '/accounts/OAuthGetAccessToken',
-    :authorize_path => '/accounts/OAuthAuthorizeToken'})
-
-Store.google_key ||= 'ABQIAAAAHzDsf62yQb-dc6oxj8T3ZRSmbtbI58sJnUq1AueY0BvTVoV' + 
-  'v3BS2gClpGsuN2juf8fL55w8oRKfwgw'
+enable :sessions
 
 # временно
 Store.clients << {}
@@ -36,7 +21,6 @@ before do
   $client[:connection] = OAuth::AccessToken.new Store.consumer, 
     session[:ac_token], session[:ac_secret]
 end
-##
 
 get '/' do
   if @feeds = get_feeds($client[:connection])

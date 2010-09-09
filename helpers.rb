@@ -17,9 +17,21 @@ helpers do
 end
 
 
-def md5 str
-  Digest::MD5.hexdigest str
+class Store
+  class << self
+    attr_accessor :clients, :consumer, :google_key
+  end
 end
+
+Store.clients = []
+Store.consumer = OAuth::Consumer.new("forefeed.heroku.com", "aWzRgfbuew+WVoQdnoZyuqHv",
+   {:site => 'https://www.google.com',
+    :request_token_path => '/accounts/OAuthGetRequestToken',
+    :access_token_path => '/accounts/OAuthGetAccessToken',
+    :authorize_path => '/accounts/OAuthAuthorizeToken'})
+
+Store.google_key ||= 'ABQIAAAAHzDsf62yQb-dc6oxj8T3ZRSmbtbI58sJnUq1AueY0BvTVoV' + 
+  'v3BS2gClpGsuN2juf8fL55w8oRKfwgw'
 
 def at_for user
   OAuth::AccessToken.new $con, user.oauth_token, user.oauth_secret
