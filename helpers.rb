@@ -1,16 +1,18 @@
-module Sinatra
-  module Helpers
-    module Haml
-      module Links
-        def domain(tld_length = 1)
-          'localhost:4567'
-        end
+helpers do
+  def domain(tld_length = 1)
+    'localhost:4567'
+  end
 
-        def asset_url(path, tld_length = 1)
-          '/' + path
-        end
-      end
-    end
+  def asset_url(path, tld_length = 1)
+    '/' + path
+  end
+  
+  def javascript url
+    {:type => 'text/javascript', :src => url}
+  end
+  
+  def css url
+    {:type => 'text/css', :href => url, :media => 'screen', :rel => 'stylesheet'}
   end
 end
 
@@ -23,18 +25,6 @@ def at_for user
   OAuth::AccessToken.new $con, user.oauth_token, user.oauth_secret
 end
 
-def current_user
-  $user || try_auth
-end
-
-def try_auth
-  cookies = request.cookies
-  if cookies['auth_id'] && cookies['auth_hash']
-    user = User.get(cookies['auth_id'].to_i)
-    if user && user.cookie_hash == cookies['auth_hash']
-      $user = user
-      return user
-    end
-  end
-  return nil
+def get_feeds connection
+  connection.get 'http://www.google.com/reader/api/0/subscription/list'
 end
