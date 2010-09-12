@@ -2,9 +2,10 @@ app_env ||= :development
 
 require 'rubygems'
 require 'sinatra'
-require 'helpers'
 require 'haml'
+require 'json'
 require 'oauth'
+require 'helpers'
 
 set :sessions, true
 set :logging, true
@@ -23,13 +24,17 @@ before do
 end
 
 get '/' do
+  haml :index
+end
+
+get '/feeds' do
+  content_type :json  
   if @feeds = get_feeds($client[:connection])
-    @logged = true
-    haml :index
-  else  
+    @feeds
+  else
     $client[:rt] = Store.consumer.get_request_token({:oauth_callback => "http://localhost:4567/oauth_get"}, 
       {:scope => 'http://www.google.com/reader/api/0/subscription/list'})
-    redirect $client[:rt].authorize_url
+    {:error => 400, :redirect_to => $client[:rt].authorize_url}
   end
 end
 
@@ -38,7 +43,12 @@ get '/oauth_get' do
   
   #data = at.get("http://www.google.com/reader/api/0/subscription/list").body
   
-  session[:ac_token]  = at.token
-  session[:ac_secret] = at.secret
+  session[:ac_token]  = $client[:at].token
+  session[:ac_secret] = $client[:at].secret
   redirect '/'
+end
+
+get '/application.css' do
+  headers 'Content-Type' => 'text/css; charset=utf-8'
+  sass :application
 end

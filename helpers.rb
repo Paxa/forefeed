@@ -1,14 +1,21 @@
 helpers do
-  def domain(tld_length = 1)
-    'localhost:4567'
-  end
-
-  def asset_url(path, tld_length = 1)
-    '/' + path
+  # replace each file with it's Dir.glob
+  def populate_paths paths, location
+    paths.map do |path| 
+      if path[0, 1] == '/'
+        Dir.glob(File.join(location, path)).map {|f| f[location.size, f.size - location.size] }
+      else
+        path
+      end
+    end.flatten
   end
   
-  def javascript url
-    {:type => 'text/javascript', :src => url}
+  def javascripts *paths
+    capture_haml do
+      for path in populate_paths(paths, 'public')
+        haml_tag :script, {:type => 'text/javascript', :src => path }
+      end
+    end
   end
   
   def css url
@@ -38,5 +45,10 @@ def at_for user
 end
 
 def get_feeds connection
-  connection.get 'http://www.google.com/reader/api/0/subscription/list'
+  res = connection.get 'http://www.google.com/reader/api/0/subscription/list'
+  if res.is_a? Net::HTTPUnauthorized
+    false
+  else
+    res
+  end
 end

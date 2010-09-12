@@ -1,4 +1,3 @@
-
 function getSelText() {
    var wnd = (window.name=='send_frame')?parent:window;
   var sel_text = null;
